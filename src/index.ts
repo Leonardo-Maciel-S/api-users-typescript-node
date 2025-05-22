@@ -1,3 +1,15 @@
-console.log("Hello World");
+import express from "express";
+import { config } from "dotenv";
 
-export {};
+config();
+
+const app = express();
+const port = process.env.PORT || 8000;
+
+app.get("/", (req, res) => {
+  res.send("Teste");
+});
+
+app.listen(port, () => {
+  console.log("App rodando em: http://localhost:" + port);
+});
