@@ -8,13 +8,12 @@ export default defineConfig([
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     plugins: { js },
     extends: ["js/recommended"],
+    rules: {},
   },
   {
     files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
     languageOptions: { globals: globals.node },
   },
-  rules: {
-    
-  },
+
   tseslint.configs.recommended,
 ]);
