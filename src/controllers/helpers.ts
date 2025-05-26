@@ -1,27 +1,29 @@
+import { HttpStatusCode } from "./protocols";
+
 export const ok = <T>(body: T) => {
   return {
-    statusCode: 200,
+    statusCode: HttpStatusCode.OK,
     body,
   };
 };
 
 export const created = <T>(body: T) => {
   return {
-    statusCode: 201,
+    statusCode: HttpStatusCode.CREATED,
     body,
   };
 };
 
 export const badRequest = (msg: string) => {
   return {
-    statusCode: 400,
+    statusCode: HttpStatusCode.BAD_REQUEST,
     body: msg,
   };
 };
 
 export const serverError = () => {
   return {
-    statusCode: 500,
+    statusCode: HttpStatusCode.SERVER_ERROR,
     body: "Algo deu errado.",
   };
 };

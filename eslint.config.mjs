@@ -10,6 +10,7 @@ export default defineConfig([
     extends: ["js/recommended"],
     rules: {
       "no-unused-vars": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
 
