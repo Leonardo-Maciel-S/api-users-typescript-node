@@ -1,18 +1,23 @@
 import { IUser } from "../../models/user";
-import { IHttpRequest, IHttpResponse } from "../protocols";
-import {
-  IUpdateUSerController,
-  IUpdateUserParams,
-  IUpdateUserRepository,
-} from "./protocols";
+import { IController, IHttpRequest, IHttpResponse } from "../protocols";
+import { IUpdateUserParams, IUpdateUserRepository } from "./protocols";
 
-export class UpdateUserController implements IUpdateUSerController {
+export class UpdateUserController implements IController {
   constructor(private updateUserRepository: IUpdateUserRepository) {}
 
-  async handle(httpRequest: IHttpRequest<any>): Promise<IHttpResponse<IUser>> {
+  async handle(
+    httpRequest: IHttpRequest<IUpdateUserParams>
+  ): Promise<IHttpResponse<IUser>> {
     try {
       const { id } = httpRequest.params;
       const body = httpRequest.body;
+
+      if (!body) {
+        return {
+          statusCode: 400,
+          body: "Campos vazios",
+        };
+      }
 
       if (!id) {
         return {

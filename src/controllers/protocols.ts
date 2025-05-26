@@ -8,3 +8,7 @@ export interface IHttpRequest<B> {
   params?: any;
   headers?: any;
 }
+
+export interface IController {
+  handle(httpRequest: IHttpRequest<unknown>): Promise<IHttpResponse<unknown>>;
+}
