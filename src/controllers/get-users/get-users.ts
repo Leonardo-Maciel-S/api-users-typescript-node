@@ -1,23 +1,19 @@
-import { IController } from "../protocols";
+import { IUser } from "../../models/user";
+import { ok, serverError } from "../helpers";
+import { IController, IHttpResponse } from "../protocols";
 import { IGetUserRepository } from "./protocols";
 
 export class GetUsersController implements IController {
   constructor(private readonly getUsersRepository: IGetUserRepository) {}
 
-  async handle() {
+  async handle(): Promise<IHttpResponse<IUser[]>> {
     try {
       const users = await this.getUsersRepository.getUsers();
 
-      return {
-        statusCode: 200,
-        body: users,
-      };
+      return ok(users);
     } catch (error) {
       console.log(error);
-      return {
-        statusCode: 500,
-        body: "Algo deu errado",
-      };
+      return serverError();
     }
   }
 }

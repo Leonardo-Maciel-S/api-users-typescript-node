@@ -1,4 +1,5 @@
 import { IUser } from "../../models/user";
+import { badRequest, ok, serverError } from "../helpers";
 import { IController, IHttpRequest, IHttpResponse } from "../protocols";
 import { IUpdateUserParams, IUpdateUserRepository } from "./protocols";
 
@@ -13,17 +14,11 @@ export class UpdateUserController implements IController {
       const body = httpRequest.body;
 
       if (!body) {
-        return {
-          statusCode: 400,
-          body: "Campos vazios",
-        };
+        return badRequest("Campos vazios");
       }
 
       if (!id) {
-        return {
-          statusCode: 500,
-          body: "Id não informado.",
-        };
+        return badRequest("Id não informado.");
       }
 
       const allowedFieldsToUpdate: (keyof IUpdateUserParams)[] = [
@@ -37,25 +32,18 @@ export class UpdateUserController implements IController {
       );
 
       if (someFieldIsNotAllowedToUpdate) {
-        return {
-          statusCode: 400,
-          body: "Recebemos algum campo não permitido para atualização",
-        };
+        return badRequest(
+          "Recebemos algum campo não permitido para atualização"
+        );
       }
 
       const user = await this.updateUserRepository.updateUser(id, body);
 
-      return {
-        statusCode: 200,
-        body: user,
-      };
+      return ok(user);
     } catch (error) {
       console.log(error);
 
-      return {
-        statusCode: 500,
-        body: "Algo deu errado.",
-      };
+      return serverError();
     }
   }
 }

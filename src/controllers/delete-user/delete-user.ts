@@ -1,4 +1,5 @@
 import { IUser } from "../../models/user";
+import { badRequest, ok, serverError } from "../helpers";
 import { IController, IHttpRequest, IHttpResponse } from "../protocols";
 import { IDeleteUserRepository } from "./protocols";
 
@@ -11,24 +12,16 @@ export class DeleteUserController implements IController {
       const id = httpRequest?.params?.id;
 
       if (!id) {
-        return {
-          statusCode: 400,
-          body: "Id do usuário não informado.",
-        };
+        return badRequest("Id do usuário não informado.");
       }
 
       const user = await this.deleteUserRepository.delete(id);
 
-      return {
-        statusCode: 200,
-        body: user,
-      };
+      return ok(user);
     } catch (error) {
       console.log(error);
-      return {
-        statusCode: 500,
-        body: "Algo deu errado.",
-      };
+
+      return serverError();
     }
   }
 }
