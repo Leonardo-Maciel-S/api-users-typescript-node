@@ -1,4 +1,10 @@
-import { MongoClient as Mongo, Db } from "mongodb";
+import { MongoClient as Mongo, Db, ObjectId } from "mongodb";
+import { IUser } from "../models/user";
+import { MongoUser } from "../repositories/mongo-protocols";
+
+type _id = { _id: ObjectId };
+
+type DBUser = MongoUser & _id;
 
 export const MongoClient = {
   client: undefined as unknown as Mongo,
@@ -16,5 +22,11 @@ export const MongoClient = {
     this.db = db;
 
     console.log("Conectado ao Banco de dados");
+  },
+
+  map(user: DBUser): IUser {
+    const { _id, ...rest } = user;
+
+    return { id: _id.toHexString(), ...rest };
   },
 };
